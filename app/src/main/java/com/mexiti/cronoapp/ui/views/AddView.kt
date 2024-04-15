@@ -39,9 +39,13 @@ import com.mexiti.cronoapp.viewmodel.DataViewModel
 @Composable
 fun ContentAddView(it:PaddingValues,
                    navController: NavController,
-                   cronometroVM:CronometroViewModel,
+                   cronometroVM: CronometroViewModel,
                    dataVM:DataViewModel
 ){
+    val state = cronometroVM.state
+    LaunchedEffect(key1 = state.cronometroActivo ){
+        cronometroVM.cronos()
+    }
     Column(
         modifier = Modifier
             .padding(it)
@@ -49,40 +53,37 @@ fun ContentAddView(it:PaddingValues,
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val state = cronometroVM.state
-        LaunchedEffect(key1 = state.cronometroActivo ){
-            cronometroVM.cronos()
-        }
 
         Text(text = formatTiempo(time = cronometroVM.time),
             fontSize = 50.sp,
             fontWeight = FontWeight.Bold)
         Row(horizontalArrangement = Arrangement.Center,
             modifier = Modifier.padding(vertical = 16.dp)
-            ) {
+        ) {
             CircleButton(icon = painterResource(id = R.drawable.play_arrow_24),
-                    //Enable Cronom State
+                //Enable Cronom State
                 enabled = !state.cronometroActivo
             ) {
                 //Start cronomVM.iniciar()
                 cronometroVM.iniciar()
             }
             CircleButton(icon = painterResource(id = R.drawable.pause_24),
-                    //State pause
+                //State pause
                 enabled = state.cronometroActivo
             ) {
                 //Start cronomVM.pausar()
                 cronometroVM.pausar()
             }
             CircleButton(icon = painterResource(id = R.drawable.stop_24),
-                    // State inactivo
+                // State inactivo
                 enabled = !state.cronometroActivo
+
             ) {
                 //Start cronomVM.detener()
                 cronometroVM.detener()
             }
             CircleButton(icon = painterResource(id = R.drawable.save_24),
-                    //state Save
+                //state Save
                 enabled = state.showSaveButton
             ) {
                 //Start cronomVM.showTextField()
@@ -90,17 +91,16 @@ fun ContentAddView(it:PaddingValues,
             }
         }
         /*
-
             Code to Save time if state.showTextField
          */
-        if (state.showTextField){
-            MainTextField(value = state.title
-                , onValueChange = {cronometroVM.onValue(it)}
-                , label = "Title" )
+        if( state.showTextField){
+            MainTextField(value = state.title,
+                onValueChange = {cronometroVM.onValue(it)}  ,
+                label = "Title")
+
             Button(onClick = {
                 dataVM.addCrono(
-                    Cronos(
-                        title = state.title,
+                    Cronos(title = state.title,
                         crono = cronometroVM.time
                     )
                 )
@@ -108,16 +108,20 @@ fun ContentAddView(it:PaddingValues,
                 navController.popBackStack()
             }) {
                 Text(text = "Guardar")
-
             }
+
         }
+
     }
 
 }
 //AddView(navController:  navegación entre vistas)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddView(navController: NavController,cronometroVM: CronometroViewModel,dataVM: DataViewModel){
+fun AddView(navController: NavController,
+            cronometroVM: CronometroViewModel,
+            dataVM: DataViewModel
+){
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -131,10 +135,10 @@ fun AddView(navController: NavController,cronometroVM: CronometroViewModel,dataV
                     }
                 }
             )
-            
+
         }
     ) {
-        ContentAddView(it = it,navController, cronometroVM,dataVM)
+        ContentAddView(it = it, navController = navController,cronometroVM, dataVM )
     }
 }
 

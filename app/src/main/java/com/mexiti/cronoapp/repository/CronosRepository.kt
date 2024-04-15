@@ -13,9 +13,9 @@ class CronosRepository@Inject constructor(private val cronosDatabaseDao: CronosD
     suspend fun addCrono(crono: Cronos)=
         cronosDatabaseDao.insert(crono)
     suspend fun updateCrono(crono: Cronos)=
-        cronosDatabaseDao.update(crono)
+        cronosDatabaseDao.update(crono=crono)
     suspend fun deleteCrono(crono: Cronos)=
-        cronosDatabaseDao.delete(crono)
+        cronosDatabaseDao.delete(crono=crono)
     fun getAllcronos(): Flow<List<Cronos>> =
         cronosDatabaseDao
             .getCronos()

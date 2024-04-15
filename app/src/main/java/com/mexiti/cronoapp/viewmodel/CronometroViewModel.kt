@@ -63,7 +63,7 @@ class CronometroViewModel @Inject constructor(
     }
     fun showTextField(){
         state = state.copy(
-            showTextField = false
+            showTextField = true
         )
     }
     fun cronos(){

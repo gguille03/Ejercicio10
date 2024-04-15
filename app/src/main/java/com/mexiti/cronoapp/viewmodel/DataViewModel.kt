@@ -7,6 +7,7 @@ import com.mexiti.cronoapp.repository.CronosRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,6 +17,7 @@ class DataViewModel @Inject constructor(
     private val repository: CronosRepository
 ): ViewModel() {
     private val _cronolist = MutableStateFlow<List<Cronos>>(emptyList())
+    val cronoList =_cronolist.asStateFlow()
     init {
         viewModelScope.launch(Dispatchers.IO) {
             repository.getAllcronos().collect(){

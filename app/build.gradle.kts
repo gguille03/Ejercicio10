@@ -61,7 +61,7 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.46")
     kapt("com.google.dagger:hilt-compiler:2.46")
 
-
+    implementation( "me.saket.swipe:swipe:1.1.1")
 
     //Navigation
     val nav_version = "2.5.3"
